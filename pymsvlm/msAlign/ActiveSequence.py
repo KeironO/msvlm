@@ -36,8 +36,17 @@ class ActiveSequence:
         return len(self._the_list) == 0
 
     def advance_lower_bound(self):
+        if self.empty():
+            raise Exception("ActiveSequence::advanceLowerBound(): ActiveSequence must be non empty")
+
         old_size = len(self._the_list)
         t = self._the_list[0]
+
+        if t[0] >= self.num_spectra:
+            raise Exception("ActiveSequence::advanceLowerBound(): get<0>(t] >= nbOfSpectra")
+
+        if t[0] == False:
+            raise Exception("ActiveSequence::advanceLowerBound(): that spectrum should be present")
 
         self._the_list = self._the_list[1:]
 
@@ -47,7 +56,9 @@ class ActiveSequence:
 
         new_size = len(self._the_list)
 
-        print(self.mz_avg)
+        print(self._the_list)
+
+        #print(self.mz_avg)
 
         if new_size == 0:
             self.mz_avg = 0

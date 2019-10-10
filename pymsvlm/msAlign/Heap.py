@@ -5,7 +5,7 @@ class Heap:
         self._heap = []
 
         for i, peak in enumerate(self.peaks):
-            self._heap.append([i, 0, peak])
+            self._heap.append([i, 0, peak[0]])
 
 
     def empty(self):
@@ -39,7 +39,6 @@ class Heap:
         if peak_indx < len(spectra):
             self._heap[len(self._heap) - 1] = [spectra_indx, peak_indx, spectra[peak_indx]]
 
-            #pop heap?
             _pop_heap()
         else:
             # pop back
