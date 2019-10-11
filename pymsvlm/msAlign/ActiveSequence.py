@@ -58,15 +58,53 @@ class ActiveSequence:
 
         print(self._the_list)
 
-        #print(self.mz_avg)
-
         if new_size == 0:
             self.mz_avg = 0
         else:
             self.mz_avg = (float(old_size) * mz_lb) / float(new_size)
 
 
-
-
     def insert(self, heap, peak):
-        pass
+        if heap.empty():
+            return False
+
+        if self.empty():
+            t = heap.pop_and_feed(peak)
+
+            if t[0] >= self.num_spectra:
+                raise Exception("ActiveSequence::insert(): get<0>(t] >= nbOfSpectra")
+
+            if self._spectra_present[t[0]]:
+                raise Exception("ActiveSequence::insert(): this spectra should be absent")
+
+            self._spectra_present[t[0]] = True
+            self._the_list.append(t)
+
+            self.mz_avg = t[2]
+            return True
+
+        else:
+
+            t = heap.top()
+            if t[0] >= self.num_spectra:
+                raise Exception("ActiveSequence::insert(): get<0>(t] >= nbOfSpectra")
+
+            spectra_indx = t[0]
+
+            mz = t[2]
+
+            if self._spectra_present[spectra_indx]:
+                return False
+
+            old_size = len(self._the_list)
+
+            new_mz_avg = (float(old_size) + mz) / float(old_size) +1
+
+            if mz <= new_mz_avg * (  1 * self.window_size ):
+                if self._the_list[0][2] >= new_mz_avg * (1 - self.window_size):
+                    self._spectra_present[spectra_indx] = True
+                    self.mz_avg = new_mz_avg
+                    self._the_list.append(heap.pop_and_feed(peak))
+                    return True
+
+            return False

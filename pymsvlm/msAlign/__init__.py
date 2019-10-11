@@ -27,7 +27,9 @@ def alignment_point_detection(peaks: list, window_size: float, for_vlm: bool):
 
     num_spectra = len(peaks)
 
-    heap = Heap(peaks)
+    heap = Heap()
+
+    heap.make_heap(peaks)
 
     active_sequence = ActiveSequence(num_spectra, window_size, for_vlm)
 
