@@ -1,4 +1,4 @@
-max_predicate = lambda a, b: a[2] <= b[2]
+max_predicate = lambda a, b:  a[1] <= b[1]
 
 class Heap:
     def __init__(self):
@@ -7,7 +7,6 @@ class Heap:
     def heap_swap(self, a, b):
         t = self.heap[a]
         self.heap[a] = self.heap[b]
-
 
         self.heap[b] = t
 
@@ -46,7 +45,6 @@ class Heap:
     def size(self):
         return len(self.heap)
 
-    # Todo
     def pop_back(self):
         self.heap = self.heap[:-1]
 
@@ -72,7 +70,6 @@ class Heap:
 
     def pop_and_feed(self, peak, comp=max_predicate):
 
-
         if self.empty():
             raise Exception("Heap::popAndFeed(): theVector must be non empty")
 
@@ -87,7 +84,7 @@ class Heap:
 
         if peak_indx < len(spectra):
             self.heap[self.size() - 1] = [spectra_indx, peak_indx, spectra[peak_indx]]
-            self.push_heap(comp)
+            self.push_heap(spectra, comp)
         else:
             self.pop_back()
 
